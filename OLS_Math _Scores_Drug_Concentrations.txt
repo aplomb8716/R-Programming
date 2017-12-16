@@ -1,0 +1,49 @@
+# Import data from a university website 
+url <- 'http://www.stat.ufl.edu/~winner/data/lsd.dat'
+data <- read.table(url, header = F)
+
+# View the data structure - number of observations and type of variables
+str(data)
+
+# Add the column or variable names from metadata 
+colnames(data) <- c('LSD', 'Math')
+
+# View first three rows of the data set
+head(data, n = 3)
+
+# attach data to use the variable names without continuously referring to the data set
+attach(data)
+
+# Testing Linear Regression Assumptions
+# Scatterplot
+plot(Math ~ LSD, pch = 16, main = "Scatter Plot of Math Score and LSD Dose",
+xlab = "LSD Dosage Level", ylab = "Math Score", col = "blue")
+
+# Pearson's Correlation Coefficient
+cor(Math, LSD
+
+# linear model with LSD as the explanatory variable
+model <- lm(Math ~ LSD)
+
+# Lists the names or the resulting output of the model
+attributes(model)
+coef(model)
+
+# Add regression line to the scatter plot
+abline(model, col = "green", lwd = 3)
+
+# Calculate the bounds of a 99% confidence interval 
+confint(model, level = 0.99)
+
+# Assessment of model fit - determination of significance
+summary(model)
+
+# The ANOVA alone
+anova(model)
+
+# Plot four graphs 2 rows 2 columns
+par(mfrow = c(2,2))
+
+# Testing regression assumptions
+plot(model)
+mean(model$residuals)
