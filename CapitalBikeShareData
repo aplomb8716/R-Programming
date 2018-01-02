@@ -1,0 +1,48 @@
+# Data Source https://s3.amazonaws.com/capitalbikeshare-data/index.html
+# Read in Data by choosing a file without specifying its location
+BikeQ1 <- read.csv(file.choose(), header = TRUE)
+
+# Read in Data using its file path
+BikeQ3 <- read.csv('C:/Users/01024606/Desktop/BikeData3.csv', header = TRUE)
+BikeQ2 <- read.csv('C:/Users/01024606/Desktop/BikeData2.csv', header = TRUE)
+
+# Append two or more data sets
+Three_Quarters <- rbind(BikeQ1, BikeQ2, BikeQ3)
+
+
+# Appending the data sets does not initially work because the names of the columns differ
+# Load dplyr package for to rename columns
+
+install.packages("dplyr")
+library("dplyr")
+
+# This rename function did not work... it just timed out after trying to print the thousands of records
+rename(data, Duration.in.Milliseconds = Duration, Start.Date = Start.date, End.Date = End.date,
+Start.Station.Number = Start.station.number, Start.Station = Start.station, 
+End.Station.Number = End.station.number, End.Station = End.station, Bike.Number
+= Bike.number )            
+  
+  
+# Change the name of each column 
+names(BikeQ1)[names(BikeQ1) ==  "Start.date"] <- "Start.Date"
+names(BikeQ1)[names(BikeQ1) ==  "End.date"] <- "End.Date"
+names(BikeQ1)[names(BikeQ1) ==  "Start.station.number"] <- "Start.Station.Number"
+names(BikeQ1)[names(BikeQ1) ==  "Start.station"] <- "Start.Station"
+names(BikeQ1)[names(BikeQ1) ==  "End.station"] <- "End.Station"
+names(BikeQ1)[names(BikeQ1) ==  "End.station.number"] <- "End.Station.Number"
+names(BikeQ1)[names(BikeQ1) == "Bike.number"] <- "Bike.Number"
+# View list of column names to determine if all of the column names for the three datasets are the same
+colnames(BikeQ1)
+colnames(BikeQ2)
+colnames(BikeQ3)
+
+# Append the three data sets using the row bind function
+Bikes_All <- rbind(BikeQ1, BikeQ2, BikeQ3)
+
+# Conversion of Duration from Milliseconds to Hours
+Bikes_All$TimeUsed <- Bikes_All$Duration.in.Milliseconds*0.000000277778 
+
+# Average amount of time in hours the bikes are used over the three quarters 
+mean(Bikes_All$TimeUsed)
+
+
